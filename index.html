@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jenn's Ono Cafe - Digital Menu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .menu-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #ff6b6b;
+            padding-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            color: #ff6b6b;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            color: #cccccc;
+            font-style: italic;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .menu-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 25px;
+            border-left: 5px solid;
+        }
+
+        .combo-meals { border-left-color: #ff6b6b; }
+        .combo-meals .item-name { font-size: 1.6rem; font-weight: bold; color: #ff6b6b; }
+        .combo-meals .item-description { font-size: 1.2rem; line-height: 1.5; }
+        .combo-meals .item-price { font-size: 1.8rem; color: #feca57; font-weight: bold; }
+        .combo-meals .menu-item { margin-bottom: 25px; padding: 15px 0; }
+        .plates { border-left-color: #4ecdc4; }
+        .sides { border-left-color: #45b7d1; }
+        .snacks { border-left-color: #96ceb4; }
+        .drinks { border-left-color: #feca57; }
+        .weekend-specials { border-left-color: #ff9ff3; }
+        .spam-musubi { border-left-color: #ff6b6b; }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .combo-meals .section-title { color: #ff6b6b; }
+        .plates .section-title { color: #4ecdc4; }
+        .sides .section-title { color: #45b7d1; }
+        .snacks .section-title { color: #96ceb4; }
+        .drinks .section-title { color: #feca57; }
+        .weekend-specials .section-title { color: #ff9ff3; }
+        .spam-musubi .section-title { color: #ff6b6b; }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-info {
+            flex: 1;
+            margin-right: 15px;
+        }
+
+        .item-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+
+        .item-description {
+            font-size: 0.9rem;
+            color: #cccccc;
+            line-height: 1.4;
+        }
+
+        .item-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #feca57;
+            white-space: nowrap;
+        }
+
+        .special-note {
+            background: rgba(255, 107, 107, 0.2);
+            border: 1px solid #ff6b6b;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 15px 0;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .gluten-free {
+            color: #96ceb4;
+            font-weight: bold;
+        }
+
+        .weekend-note {
+            background: rgba(255, 159, 243, 0.2);
+            border: 1px solid #ff9ff3;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .combo-substitution {
+            background: rgba(255, 202, 87, 0.2);
+            border: 1px solid #feca57;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .menu-container {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .item-name {
+                font-size: 1rem;
+            }
+            
+            .item-price {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-container">
+        <div class="header">
+            <h1>Jenn's Ono Cafe</h1>
+            <div class="subtitle">Digital Menu</div>
+        </div>
+
+        <div class="menu-grid">
+            <!-- Combo Meals Section -->
+            <div class="menu-section combo-meals">
+                <h2 class="section-title">Combo Meals</h2>
+                <div class="combo-substitution">
+                    Includes Side and Non Alcoholic Drink
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Skater's Breakfast</div>
+                        <div class="item-description">Breakfast Plate or Breakfast Taco</div>
+                    </div>
+                    <div class="item-price">$16.99</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Skater's Special</div>
+                        <div class="item-description">Choice of: Chicken Wrap, Teriyaki Sliders, or Breakfast Sandwich</div>
+                    </div>
+                    <div class="item-price">$15.99</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Tenders Combo</div>
+                        <div class="item-description">Chicken Tenders + Sauce</div>
+                    </div>
+                    <div class="item-price">$14.99</div>
+                </div>
+
+            </div>
+
+            <!-- Plates Section -->
+            <div class="menu-section plates">
+                <h2 class="section-title">Plates</h2>
+                
+                <!-- Breakfast Items -->
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Breakfast Plate <span class="gluten-free">★</span></div>
+                        <div class="item-description">Eggs, Choice of Bacon/Sausage/Spam, Choice of White or Fried Rice (Fried Rice +$2)</div>
+                    </div>
+                    <div class="item-price">$13.49</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Breakfast Taco</div>
+                        <div class="item-description">Bacon, Sausage, or Spam</div>
+                    </div>
+                    <div class="item-price">$12.49</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Breakfast Sandwich</div>
+                        <div class="item-description">Bacon or Sausage</div>
+                    </div>
+                    <div class="item-price">$10.49</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Avocado Toast</div>
+                    </div>
+                    <div class="item-price">$10.49</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">French Toast Bites</div>
+                    </div>
+                    <div class="item-price">$9.99</div>
+                </div>
+
+                <!-- Sliders -->
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Teriyaki Sliders</div>
+                        <div class="item-description">3 Sliders</div>
+                    </div>
+                    <div class="item-price">$12.49</div>
+                </div>
+
+                <!-- Chicken Wrap -->
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Chicken Wrap</div>
+                        <div class="item-description">Fried or Grilled</div>
+                    </div>
+                    <div class="item-price">$11.49</div>
+                </div>
+
+                <!-- Salad -->
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Caesar Salad <span class="gluten-free">★</span></div>
+                        <div class="item-description">Add Protein + $2</div>
+                    </div>
+                    <div class="item-price">$10.49</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Garden Salad <span class="gluten-free">★</span></div>
+                        <div class="item-description">Add Protein + $2</div>
+                    </div>
+                    <div class="item-price">$10.49</div>
+                </div>
+            </div>
+
+            <!-- Sides Section -->
+            <div class="menu-section sides">
+                <h2 class="section-title">Sides</h2>
+                <div class="special-note">
+                    ★ Symbol Indicates Gluten Free Option Available
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">French Fries</div>
+                    </div>
+                    <div class="item-price">$5.49</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Tater Tots</div>
+                    </div>
+                    <div class="item-price">$5.49</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Hawaiian Mac Salad</div>
+                    </div>
+                    <div class="item-price">$4.49</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Fried Rice</div>
+                    </div>
+                    <div class="item-price">$4.45</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Side Salad <span class="gluten-free">★</span></div>
+                        <div class="item-description">Add Protein + $2</div>
+                    </div>
+                    <div class="item-price">$4.49</div>
+                </div>
+            </div>
+
+            <!-- Snacks Section -->
+            <div class="menu-section snacks">
+                <h2 class="section-title">Snacks</h2>
+                
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Chicken Tenders + Sauce</div>
+                    </div>
+                    <div class="item-price">$7.49</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Mozzarella Sticks</div>
+                    </div>
+                    <div class="item-price">$6.49</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Pizza Logs</div>
+                    </div>
+                    <div class="item-price">$6.49</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Cheese Curds</div>
+                    </div>
+                    <div class="item-price">$5.49</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Pizza Slice</div>
+                        <div class="item-description">Cheese, Pepperoni, OR HAWAIIAN + $1</div>
+                    </div>
+                    <div class="item-price">$5.49</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Muffin</div>
+                    </div>
+                    <div class="item-price">$3.49</div>
+                </div>
+            </div>
+
+            <!-- Drinks Section -->
+            <div class="menu-section drinks">
+                <h2 class="section-title">Drinks</h2>
+                
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Fountain Soda</div>
+                    </div>
+                    <div class="item-price">$3.25</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Stick Man Coffee</div>
+                    </div>
+                    <div class="item-price">$3.25</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Whipped Coffee</div>
+                    </div>
+                    <div class="item-price">$4.00</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Hot Tea</div>
+                    </div>
+                    <div class="item-price">$3.25</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Hot Chocolate</div>
+                    </div>
+                    <div class="item-price">$3.25</div>
+                </div>
+            </div>
+
+            <!-- Specials Section -->
+            <div class="menu-section weekend-specials">
+                <h2 class="section-title">Specials</h2>
+                <div class="weekend-note">
+                    While Supplies Last
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Pulled Pork Plate</div>
+                        <div class="item-description">White or Fried Rice, Mac Salad, & Side Salad</div>
+                    </div>
+                    <div class="item-price">$17.99</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Pulled Pork Sliders</div>
+                        <div class="item-description">3 Sliders + Side</div>
+                    </div>
+                    <div class="item-price">$15.99</div>
+                </div>
+            </div>
+
+            <!-- Spam Musubi Section -->
+            <div class="menu-section spam-musubi">
+                <h2 class="section-title">Spam Musubi <span class="gluten-free">★</span></h2>
+                <div class="weekend-note">
+                    Add Egg for $1 per Musubi<br>
+                    While Supplies Last
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Single</div>
+                    </div>
+                    <div class="item-price">$3.49</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">2-pack</div>
+                    </div>
+                    <div class="item-price">$6.50</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">3-pack</div>
+                    </div>
+                    <div class="item-price">$9.50</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Add One To Any Plate</div>
+                    </div>
+                    <div class="item-price">$2.99</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">Musubi Dipping Sauce</div>
+                    </div>
+                    <div class="item-price">$1.00</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
